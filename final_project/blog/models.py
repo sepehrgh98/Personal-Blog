@@ -7,9 +7,9 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'پست'
         verbose_name_plural = 'پست ها'
-    post_date = models.DateTimeField(default=timezone.now)
+    post_date = models.DateTimeField('تاریخ انتشار',default=timezone.now)
     last_update = models.DateTimeField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, verbose_name='نویسنده')
     state = models.ForeignKey('Post_state', on_delete=models.CASCADE)
     tag = models.ManyToManyField('Tag', blank=True)
     content = models.OneToOneField('Post_content', on_delete=models.CASCADE)
@@ -53,7 +53,7 @@ class Post_content(models.Model):
         verbose_name_plural = 'محتوا ها'
     title = models.CharField(max_length=500)
     text = models.TextField()
-    image = models.URLField()
+    image = models.ImageField()
     last_update = models.DateTimeField()
 
 class Post_category(models.Model):

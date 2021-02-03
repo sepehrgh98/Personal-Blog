@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sky</title>
+</head>
+<body>
+{% block container %}
+<form id="post-form" method="post">
+    {% csrf_token %}
+    <table>
+        {{ post_form.as_table }}
+        {{ my_content_form.as_table }}
+        {{ tag_form.as_table }}
+        {{ category_form.as_table }}
+    </table>
+    <input type="submit" value="ایجاد" class="btn-primary">
+</form>
+{% endblock %}
+
+</body>
+</html>
