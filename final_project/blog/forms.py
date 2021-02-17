@@ -64,7 +64,8 @@ class TagForm(ModelForm):
 class Post_Category_Form(ModelForm):
     class Meta:
         model = Post_category
-        fields = ['name']
+        fields = ['name', 'super_category']
         labels = {
             'name': _('عنوان دسته بندی'),
+            'super_category': _('زیر دسته'),
         }

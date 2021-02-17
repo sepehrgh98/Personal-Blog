@@ -1,15 +1,13 @@
 {% extends 'blog/base.html' %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>sky</title>
-</head>
+{% load static %}
+{% load bootstrap %}
+
 <body>
 {% block container %}
 <form id="post-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
-        {{ post_form.as_table }}
+        {{ post_form|bootstrap }}
         {{ tag_form.as_table }}
         {{ category_form.as_table }}
     </table>

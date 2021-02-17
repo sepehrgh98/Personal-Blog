@@ -69,6 +69,7 @@ class Post_category(models.Model):
         verbose_name_plural = 'گروه بندی های پست ها'
 
     name = models.CharField(max_length=200)
+    super_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     last_update = models.DateTimeField()
 
     def __str__(self):
