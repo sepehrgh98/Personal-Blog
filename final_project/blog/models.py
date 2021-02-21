@@ -1,7 +1,21 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from sqlalchemy.sql import selectable
+
+
+class User(AbstractUser):
+    class Meta:
+        verbose_name = 'کاربر'
+        verbose_name_plural = 'کاربران'
+    first_name = models.CharField(max_length=500)
+    last_name = models.CharField(max_length=500)
+    birthdate = models.DateTimeField(null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    username = models.CharField(max_length=500)
+    profile_image = models.ImageField(upload_to='user_images/', null=True, blank=True)
+    last_update = models.DateTimeField(null=True, blank=True)
 
 
 class Post(models.Model):
@@ -11,11 +25,11 @@ class Post(models.Model):
 
     post_date = models.DateTimeField('تاریخ انتشار', default=timezone.now)
     last_update = models.DateTimeField()
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='نویسنده')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده')
     state = models.ForeignKey('Post_state', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=500)
     text = models.TextField()
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ImageField(upload_to='Post_images/', null=True, blank=True)
     category = models.ForeignKey('Post_category', on_delete=models.CASCADE)
     comments = models.ManyToManyField('Comment', blank=True)
 
@@ -28,7 +42,7 @@ class Post_state(models.Model):
         verbose_name = 'لایک'
         verbose_name_plural = 'لایک ها'
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     state = models.BooleanField()
     state_date = models.DateTimeField(default=timezone.now)
     last_update = models.DateTimeField()
@@ -42,7 +56,7 @@ class Comment(models.Model):
         verbose_name = 'نظر'
         verbose_name_plural = 'نظرات'
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     last_update = models.DateTimeField()
     content = models.CharField(max_length=1000)
     comment_date = models.DateTimeField(default=timezone.now)

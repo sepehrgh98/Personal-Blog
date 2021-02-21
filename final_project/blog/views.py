@@ -1,11 +1,12 @@
 from django.http import HttpResponseRedirect
 from django.views import generic
-from .forms import TagForm, Post_Category_Form, Post_form
+from .forms import TagForm, Post_Category_Form, Post_form, UserForm
 from django.utils import timezone
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Tag, Post_category
+from .models import Post, Tag
+from django.views.generic import CreateView
 
 
 # main page
@@ -14,6 +15,21 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         pass
+
+
+# register page
+def register(request):
+    if request.POST:
+        user_form = UserForm(request.POST)
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            user.last_update = timezone.now()
+            user.save()
+            # user_form.save()
+            return HttpResponseRedirect(reverse('blog:index'))
+    else:
+        user_form = UserForm()
+    return render(request, 'blog/register.html', {'user_form': user_form})
 
 
 # post_pre_view
@@ -48,7 +64,6 @@ def new_Post(request):
             # post_form.save()
 
             return HttpResponseRedirect(reverse('blog:preview', args=(post.id,)))
-
 
     else:
         post_form = Post_form()
