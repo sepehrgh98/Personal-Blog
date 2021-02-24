@@ -52,12 +52,11 @@ class Post_Category_Form(ModelForm):
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'birthdate', 'email', 'profile_image']
+        fields = ['first_name', 'last_name', 'birthdate', 'email', 'profile_image']
         labels = {
             'first_name': _('نام'),
             'last_name': _('نام خانوادگی'),
             'birthdate': _('تاریخ تولد'),
             'email': _('آدرس ایمیل'),
-            'username': _('نام کاربری'),
             'profile_image': _('عکس پروفایل'),
         }

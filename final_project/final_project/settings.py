@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'final_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,3 +136,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_files")
 
 AUTH_USER_MODEL = 'blog.User'
 SILENCED_SYSTEM_CHECKS = ['auth.E003', 'auth.W004']
+
+LOGIN_REDIRECT_URL = '/blog'
+LOGOUT_REDIRECT_URL = '/blog'

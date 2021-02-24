@@ -19,8 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    # url(r'^ltw/',include('django_adminlte.urls',namespace="django_adminlte"))
-    # url(r'^reviews/', include(('reviews.urls', 'reviews'), namespace='reviews')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path("blog/", include("blog.urls", namespace='blog')),
     path('admin/', admin.site.urls),
 ]

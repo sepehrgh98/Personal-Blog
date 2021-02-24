@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sky</title>
+</head>
+<body>
+{% block container %}
+
+<h1>{{ user.first_name }}{{ user.last_name }}</h1>
+
+<form action="{% url 'blog:index' %}" method="get">
+    {% csrf_token %}
+    {% if user.profile_image %}
+        <img src="{{ user.profile_image.url}}" alt="connect" style="max-height:300px">
+    {% endif %}
+    {{ user.username }}
+    {{ user.email }}
+    {{ user.birthdate }}
+
+    <input type="submit" value="تایید">
+</form>
+{% endblock %}
+
+</body>
+</html>

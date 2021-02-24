@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Tag
+from .models import Post, Tag, User
 from django.views.generic import CreateView
 
 
@@ -26,10 +26,17 @@ def register(request):
             user.last_update = timezone.now()
             user.save()
             # user_form.save()
-            return HttpResponseRedirect(reverse('blog:index'))
+            print(111111111111111)
+            return HttpResponseRedirect(reverse('blog:profile', args=(user.pk,)))
     else:
         user_form = UserForm()
     return render(request, 'blog/register.html', {'user_form': user_form})
+
+
+# profile_view
+class Profile(generic.DetailView):
+    model = User
+    template_name = 'blog/Profile.html'
 
 
 # post_pre_view
