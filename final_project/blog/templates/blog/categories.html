@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block css %}
+<link href="{% static 'blog/css/categories.css' %}" rel="stylesheet">
+{% endblock %}
+<body>
+{% block container %}
+<ul id="myUL">
+    <li><span class="caret">Beverages</span>
+        <ul class="nested">
+            <li><span class="caret">Tea</span>
+                <ul class="nested">
+                    <li><span class="caret">Green Tea</span>
+                        <ul class="nested">
+                            <li>Sencha</li>
+                            <li>Gyokuro</li>
+                            <li>Matcha</li>
+                            <li>Pi Lo Chun</li>
+                        </ul>
+                    </li>
+                    <li><span class="caret">Green Tea</span>
+                        <ul class="nested">
+                            <li>Sencha</li>
+                            <li>Gyokuro</li>
+                            <li>Matcha</li>
+                            <li>Pi Lo Chun</li>
+                        </ul>
+                    </li>
+                    <li><span class="caret">Green Tea</span>
+                        <ul class="nested">
+                            <li>Sencha</li>
+                            <li>Gyokuro</li>
+                            <li>Matcha</li>
+                            <li>Pi Lo Chun</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="caret">Tea</span>
+                <ul class="nested">
+                    <li>Black Tea</li>
+                    <li>White Tea</li>
+                    <li><span class="caret">Green Tea</span>
+                        <ul class="nested">
+                            <li>Sencha</li>
+                            <li>Gyokuro</li>
+                            <li>Matcha</li>
+                            <li>Pi Lo Chun</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span class="caret">Tea</span>
+                <ul class="nested">
+                    <li>Black Tea</li>
+                    <li>White Tea</li>
+                    <li><span class="caret">Green Tea</span>
+                        <ul class="nested">
+                            <li>Sencha</li>
+                            <li>Gyokuro</li>
+                            <li>Matcha</li>
+                            <li>Pi Lo Chun</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<ul id="myUL">
+    <li><span class="caret">دسته بندی</span>
+        <ul class="nested">
+        {% for cat in category_list %}
+            {% if  not cat.parent_category %}
+                    <li><span class="caret">{{ cat.name }}</span>
+                        {{ cat|nested_cat }}
+                    </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </li>
+</ul>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'blog/js/categories.js' %}"></script>
+{% endblock %}
+
+</body>

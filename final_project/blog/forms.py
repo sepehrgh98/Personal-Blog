@@ -2,6 +2,9 @@ from django import forms
 from django.forms import ModelForm
 from .models import Tag, Post_category, Post, User
 from django.utils.translation import gettext_lazy as _
+from django.forms.widgets import NumberInput
+from dal import autocomplete
+
 
 REQUIRED_MSG = 'این که خالیه عامو!!'
 
@@ -9,16 +12,16 @@ REQUIRED_MSG = 'این که خالیه عامو!!'
 class Post_form(ModelForm):
     class Meta:
         model = Post
-        fields = ['author', 'post_date', 'title', 'text', 'image']
+        fields = ['post_date', 'title', 'text', 'image', 'category']
+        widgets = {
+            'tag': autocomplete.ModelSelect2Multiple(url='blog:Tag-autocomplete')
+        }
         labels = {
             'title': _('عنوان پست'),
             'text': _('متن پست'),
-            'image': _('تصویر مرتبط')
-        }
-        help_texts = {
-            'title': _('عنوان پست مورد نظر را در این کادر قرار دهید'),
-            'text': _('متن مورد نظر را در این کادر بنویسید'),
-            'image': _('تصویر مرتبط با پست را اینجا پیوست دهید')
+            'image': _('تصویر مرتبط'),
+            'post_date': _('تاریخ انتشار'),
+            'category': _('دسته بندی'),
         }
         error_messages = {
             'title': {
@@ -42,21 +45,39 @@ class TagForm(ModelForm):
 class Post_Category_Form(ModelForm):
     class Meta:
         model = Post_category
-        fields = ['name', 'super_category']
+        fields = ['name']
         labels = {
             'name': _('عنوان دسته بندی'),
-            'super_category': _('زیر دسته'),
         }
 
 
 class UserForm(ModelForm):
+    password = forms.CharField(label='رمز عبور', widget=forms.PasswordInput(), )
+    ConfirmPassword = forms.CharField(label='تایید رمز عبور', widget=forms.PasswordInput(), )
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'birthdate', 'email', 'profile_image']
+        fields = ['first_name', 'last_name', 'username', 'birthdate', 'email', 'profile_image', 'password',
+                  'ConfirmPassword']
+        widgets = {
+            'birthdate': NumberInput(attrs={'type': 'date'}),
+        }
         labels = {
             'first_name': _('نام'),
             'last_name': _('نام خانوادگی'),
             'birthdate': _('تاریخ تولد'),
             'email': _('آدرس ایمیل'),
             'profile_image': _('عکس پروفایل'),
+            'password': _('رمز عبور'),
+            'ConfirmPassword': _('تایید رمز عبور'),
+            'username': _('نام کاربری'),
+
         }
+
+    def save(self, commit=True):
+        user = super(UserForm, self).save(commit=False)
+        password = user.set_password(self.cleaned_data["password"])
+        confirmpassword = user.set_password(self.cleaned_data["password"])
+        if password and confirmpassword and password == confirmpassword:
+            user.save()
+        return user

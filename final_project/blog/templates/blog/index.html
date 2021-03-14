@@ -1,15 +1,38 @@
 {% extends 'base.html' %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>sky</title>
-</head>
+{% load static %}
+
+{% block css %}
+<link href="{% static 'blog/css/index.css' %}" rel="stylesheet">
+{% endblock %}
 <body>
 {% block container %}
 <div>
-    my posts
+    <div class="card-deck">
+        <div class="card-group">
+        {% for post in post_list %}
+            <div class="card" >
+                <img class="card-img-top" src="{{ post.image.url}}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.text }}</p>
+                    <p class="card-text">{{ post.author }}</p>
+                    <div class="d-flex justify-content-between state" id="{{ post.id }}">
+                        <i class="far fa-thumbs-up" id="mylikes"></i>
+                        <i class="far fa-thumbs-down" id="mydislikes"></i>
+                    </div>
+
+                    <p class="card-text"><small class="text-muted">{{ post.post_date }}</small></p>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+
+    </div>
 </div>
 {% endblock %}
-
+{% block scripts %}
+{% csrf_token %}
+<script src="{% static 'blog/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'blog/js/index.js' %}"></script>
+{% endblock %}
 </body>
-</html>

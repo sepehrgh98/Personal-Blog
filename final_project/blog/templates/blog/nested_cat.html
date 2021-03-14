@@ -1,0 +1,9 @@
+{% load custom_tags %}
+
+<ul class="nested">
+    {% for cat in cats %}
+    <li><span class="caret">{{ cat }}</span>
+        {{ cat|nested_cat }}
+    </li>
+    {% endfor %}
+</ul>
