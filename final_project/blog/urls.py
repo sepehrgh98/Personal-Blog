@@ -18,4 +18,13 @@ urlpatterns = [
                   path('profile/<int:pk>/', views.Profile.as_view(), name='profile'),
                   path('likeapi/', views.likeAPI.as_view(), name='likeapi'),
                   path('likeapi/<int:pk>/', views.likeAPI.as_view(), name='likeapi'),
+                  path('dislikeapi/', views.dislikeAPI.as_view(), name='dislikeapi'),
+                  path('dislikeapi/<int:pk>/', views.dislikeAPI.as_view(), name='dislikeapi'),
+                  path('LikeAndDislikeCountAPI/', views.LikeAndDislikeCountAPI.as_view(), name='like_dislike_count'),
+                  path('LikeAndDislikeCountAPI/<int:pk>/', views.LikeAndDislikeCountAPI.as_view(), name='like_dislike_count'),
+                  path('UnlikeAPI/', views.UnlikeAPI.as_view(), name='UnlikeAPI'),
+                  path('UnlikeAPI/<int:pk>/', views.UnlikeAPI.as_view(), name='UnlikeAPI'),
+                    path('UndislikeAPI/', views.UndislikeAPI.as_view(), name='UndislikeAPI'),
+                  path('UndislikeAPI/<int:pk>/', views.UndislikeAPI.as_view(), name='UndislikeAPI'),
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

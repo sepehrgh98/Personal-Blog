@@ -1,21 +1,21 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.views import generic
 from .forms import TagForm, Post_Category_Form, Post_form, UserForm
-from django.utils import timezone
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Tag, User, Post_category, Like
+from .models import Post, Tag, User, Post_category, Like, Dislike
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
-from dal import autocomplete
+from django.utils import timezone
 from rest_framework.views import APIView
-from .serializers import likeSerializer
+from .serializers import LikeAndDislikeSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from dal import autocomplete
 
 
-# main page
+# final_project page
 class IndexView(ListView):
     context_object_name = 'post_list'
     queryset = Post.objects.all()
@@ -93,6 +93,44 @@ def new_Post(request):
         , 'category_form': category_form})
 
 
+# category_page
+class Categories(LoginRequiredMixin, generic.ListView):
+    model = Post_category
+    context_object_name = 'category_list'
+    form = Post_Category_Form
+    template_name = 'blog/categories.html'
+    queryset = Post_category.objects.all()
+
+
+# add like & dislike APIs
+class likeAPI(APIView):
+    def post(self, request):
+        if request.data:
+            data = request.POST
+            p = Post.objects.get(id=data['post_id'])
+            for item in p.like_set.all():
+                if item.user == request.user:
+                    return Response(status=status.HTTP_201_CREATED)
+            for item in p.dislike_set.all():
+                if request.user == item.user:
+                    item.delete()
+            Like.objects.create(user=request.user, post=p, state_date=timezone.now())
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class UnlikeAPI(APIView):
+    def post(self, request):
+        if request.data:
+            data = request.POST
+            p = Post.objects.get(id=data['post_id'])
+            for item in p.like_set.all():
+                if item.user == request.user:
+                    item.delete()
+                    return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 class TagAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
@@ -104,28 +142,37 @@ class TagAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
-# category_page
-class Categories(LoginRequiredMixin, generic.ListView):
-    model = Post_category
-    context_object_name = 'category_list'
-    form = Post_Category_Form
-    template_name = 'blog/categories.html'
-    queryset = Post_category.objects.all()
-
-
-# like & dislike APIs
-class likeAPI(APIView):
+class dislikeAPI(APIView):
     def post(self, request):
         if request.data:
             data = request.POST
-            # print(f"<<<<<<<<<<<<<<<<{data}")
             p = Post.objects.get(id=data['post_id'])
-            print(f"<<<<<<<<<<<<<<<<{p}")
-
-            Like.objects.create(user=request.user, post=p, state_date=timezone.now())
+            for item in p.dislike_set.all():
+                if item.user == request.user:
+                    return Response(status=status.HTTP_201_CREATED)
+            for item in p.like_set.all():
+                if request.user == item.user:
+                    item.delete()
+            Dislike.objects.create(user=request.user, post=p, state_date=timezone.now())
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    # def get(self, request):
-    #     students = Like.objects.all()
-    #     serialized = likeSerializer(students, many=True)
-    #     return Response(serialized.data)
+
+
+class UndislikeAPI(APIView):
+    def post(self, request):
+        if request.data:
+            data = request.POST
+            p = Post.objects.get(id=data['post_id'])
+            for item in p.dislike_set.all():
+                if item.user == request.user:
+                    item.delete()
+                    return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+# count like & dislike APIs
+class LikeAndDislikeCountAPI(APIView):
+    def get(self, request, format=None):
+        posts = Post.objects.all()
+        serializer = LikeAndDislikeSerializer(posts, many=True)
+        return Response(serializer.data)

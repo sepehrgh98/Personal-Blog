@@ -23,16 +23,6 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 
-class PostAdmin(admin.ModelAdmin):
-    form = Post_form
-    model = Post
-    fieldsets = (
-        (None, {
-            'fields': ('title', 'text', 'image', 'category', 'author', 'post_date')
-        }),
-    )
-
-
 class TagAdmin(admin.ModelAdmin):
     form = TagForm
     model = Tag
@@ -80,6 +70,28 @@ class DislikeAdmin(admin.ModelAdmin):
     )
 
 
+class likeInline(admin.TabularInline):
+    model = Like
+
+
+class dislikeInline(admin.TabularInline):
+    model = Dislike
+
+
+class PostAdmin(admin.ModelAdmin):
+    form = Post_form
+    model = Post
+    inlines = [
+        likeInline,
+        dislikeInline,
+    ]
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'text', 'image', 'category', 'author', 'post_date')
+        }),
+    )
+
+
 # Register your models here.
 admin.site.register(Post, PostAdmin)
 admin.site.register(Tag, TagAdmin)
@@ -88,4 +100,3 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(Post_category, Post_categoryAdmin)
 admin.site.register(Like, LikeAdmin)
 admin.site.register(Dislike, DislikeAdmin)
-

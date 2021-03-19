@@ -58,8 +58,6 @@ class Post(models.Model):
     post_date = models.DateTimeField('تاریخ انتشار', default=timezone.now)
     last_update = models.DateTimeField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده')
-    # like = models.ForeignKey('Like', on_delete=models.CASCADE, null=True, blank=True)
-    # dislike = models.ForeignKey('Dislike', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=500)
     text = tmc.HTMLField()
     image = models.ImageField(upload_to='Post_images/', null=True, blank=True, default='default/pdefault.png')
@@ -68,7 +66,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
 
 class Like(models.Model):
     class Meta:
@@ -80,7 +77,7 @@ class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user} لایک , "
+        return f"{self.user} , {self.post}"
 
 
 class Dislike(models.Model):
@@ -91,10 +88,9 @@ class Dislike(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     state_date = models.DateTimeField(default=timezone.now)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
-    last_update = models.DateTimeField()
 
     def __str__(self):
-        return f"{self.user} دیس لایک , "
+        return f"{self.user} , {self.post}"
 
 
 class Comment(models.Model):
