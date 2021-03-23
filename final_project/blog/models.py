@@ -62,10 +62,11 @@ class Post(models.Model):
     text = tmc.HTMLField()
     image = models.ImageField(upload_to='Post_images/', null=True, blank=True, default='default/pdefault.png')
     category = models.ForeignKey('Post_category', on_delete=models.SET_NULL, null=True)
-    comments = models.ManyToManyField('Comment', blank=True)
+
 
     def __str__(self):
         return self.title
+
 
 class Like(models.Model):
     class Meta:
@@ -99,12 +100,12 @@ class Comment(models.Model):
         verbose_name_plural = 'نظرات'
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    last_update = models.DateTimeField()
-    content = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1000)
     comment_date = models.DateTimeField(default=timezone.now)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.user
+        return self.text
 
 
 class Tag(models.Model):

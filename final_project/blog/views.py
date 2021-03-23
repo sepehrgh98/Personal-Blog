@@ -4,7 +4,7 @@ from .forms import TagForm, Post_Category_Form, Post_form, UserForm
 from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Tag, User, Post_category, Like, Dislike
+from .models import Post, Tag, User, Post_category, Like, Dislike, Comment
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.utils import timezone
@@ -15,14 +15,28 @@ from rest_framework import status
 from dal import autocomplete
 
 
-# final_project page
+# main page
 class IndexView(ListView):
     context_object_name = 'post_list'
     queryset = Post.objects.all()
     template_name = 'blog/index.html'
 
-    # def get_queryset(self):
-    #     pass
+    # def get(self, request):
+    #     comment_form = CommentForm(request.POST)
+    #     return render(request, 'blog/index.html', {'post_list': self.queryset, 'comment_form': comment_form})
+    #
+    # def post(self, request):
+    #     comment_form = CommentForm(request.POST)
+    #     post_list = Post.objects.all()
+    #     print(f'&&&&&&&&&&&&&&&&&&&{request.POST}')
+    #     if comment_form.is_valid():
+    #         comment = comment_form.save(commit=False)
+    #         comment.comment_date = timezone.now()
+    #         comment.author = request.user
+    #         # comment.post =
+    #         comment.save()
+    #         comment_form.save_m2m()
+    #         return HttpResponseRedirect(reverse('blog:index'), post_list)
 
 
 # register page
@@ -176,3 +190,15 @@ class LikeAndDislikeCountAPI(APIView):
         posts = Post.objects.all()
         serializer = LikeAndDislikeSerializer(posts, many=True)
         return Response(serializer.data)
+
+
+# CommentAPI
+class CommentAPI(APIView):
+    def post(self, request):
+        if request.data:
+            data = request.POST
+            print(f'Cءءءءءءء{data}')
+            p = Post.objects.get(id=data['post_id'])
+            Comment.objects.create(author=request.user, text=data['text'], post=p)
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)

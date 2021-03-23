@@ -1,10 +1,9 @@
 from django import forms
-from django.forms import ModelForm
-from .models import Tag, Post_category, Post, User
+from django.forms import ModelForm, Textarea
+from .models import Tag, Post_category, Post, User, Comment
 from django.utils.translation import gettext_lazy as _
 from django.forms.widgets import NumberInput
 from dal import autocomplete
-
 
 REQUIRED_MSG = 'این که خالیه عامو!!'
 
@@ -12,7 +11,7 @@ REQUIRED_MSG = 'این که خالیه عامو!!'
 class Post_form(ModelForm):
     class Meta:
         model = Post
-        fields = ['post_date', 'title', 'text', 'image', 'category']
+        fields = ['post_date', 'title', 'text', 'image']
         widgets = {
             'tag': autocomplete.ModelSelect2Multiple(url='blog:Tag-autocomplete')
         }
@@ -30,6 +29,15 @@ class Post_form(ModelForm):
             'text': {
                 'max_lenght': _('این متن برای پست بسیار طولانی است'),
             }
+        }
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text', 'post']
+        widgets = {
+            'text': Textarea(attrs={'cols': 80, 'rows': 2, 'placeholder': "نظر شما..."}),
         }
 
 

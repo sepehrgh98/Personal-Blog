@@ -44,4 +44,15 @@ def liked_or_disliked(post, user):
     else:
         return None
 
+
 register.filter('liked_or_disliked', liked_or_disliked)
+
+
+# def comments(post):
+#     print(post.comment_set.all())
+#
+#
+#
+# register.filter('comments', comments)
+
+

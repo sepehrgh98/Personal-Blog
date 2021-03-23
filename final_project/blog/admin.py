@@ -33,15 +33,6 @@ class TagAdmin(admin.ModelAdmin):
     )
 
 
-class CommentAdmin(admin.ModelAdmin):
-    model = Comment
-    fieldsets = (
-        (None, {
-            'fields': ('content', 'author', 'comment_date')
-        }),
-    )
-
-
 class Post_categoryAdmin(admin.ModelAdmin):
     form = Post_Category_Form
     model = Post_category
@@ -78,18 +69,33 @@ class dislikeInline(admin.TabularInline):
     model = Dislike
 
 
+class CommentInline(admin.TabularInline):
+    model = Comment
+
+
 class PostAdmin(admin.ModelAdmin):
     form = Post_form
     model = Post
     inlines = [
         likeInline,
         dislikeInline,
+        CommentInline,
     ]
     fieldsets = (
         (None, {
             'fields': ('title', 'text', 'image', 'category', 'author', 'post_date')
         }),
     )
+
+
+class CommentAdmin(admin.ModelAdmin):
+    model = Comment
+    fieldsets = (
+        (None, {
+            'fields': ('text', 'author', 'comment_date', 'post')
+        }),
+    )
+
 
 
 # Register your models here.
