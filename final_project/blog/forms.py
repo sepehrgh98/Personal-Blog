@@ -4,6 +4,8 @@ from .models import Tag, Post_category, Post, User, Comment
 from django.utils.translation import gettext_lazy as _
 from django.forms.widgets import NumberInput
 from dal import autocomplete
+from image_cropping import ImageCropWidget
+
 
 REQUIRED_MSG = 'این که خالیه عامو!!'
 
@@ -11,7 +13,7 @@ REQUIRED_MSG = 'این که خالیه عامو!!'
 class Post_form(ModelForm):
     class Meta:
         model = Post
-        fields = ['post_date', 'title', 'text', 'image']
+        fields = ['post_date', 'title', 'text', 'image', 'category']
         widgets = {
             'tag': autocomplete.ModelSelect2Multiple(url='blog:Tag-autocomplete')
         }
@@ -65,10 +67,11 @@ class UserForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'birthdate', 'email', 'profile_image', 'password',
-                  'ConfirmPassword']
+        fields = ['first_name', 'last_name', 'username', 'birthdate', 'email', 'profile_image', 'password'
+                  ,'ConfirmPassword']
         widgets = {
             'birthdate': NumberInput(attrs={'type': 'date'}),
+            'profile_image': ImageCropWidget(),
         }
         labels = {
             'first_name': _('نام'),

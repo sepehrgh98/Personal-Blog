@@ -1,0 +1,155 @@
+.myprof{
+    display: flex;
+    position: absolute;
+    left: 180px;
+    top: 150px;
+    width: 1200px;
+    flex-direction: row-reverse;
+    overflow: auto;
+    height: 550px;
+}
+.left{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.right{
+  width: 50%;
+    display: flex;
+    flex-direction: column;
+    background-color: #0d4851;
+    margin-left: 20px;
+}
+.left-top{
+    width: 100%;
+}
+.Profile_image{
+    width: inherit;
+    padding: 50px;
+    background-color: #0d4851;
+    display: flex;
+    justify-content: center;
+}
+.Profile_image img{
+    max-width: 100%;
+    max-height: 100%;
+}
+.left-bottom{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    background-color: #0d4851;
+    margin-top: 15px;
+}
+.email_label{
+    display: flex;
+    justify-content: flex-start;
+    font-weight: bold;
+    color: white;
+
+}
+.email{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+.fname{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    background-color: #0d4851;
+    height: 20%;
+    justify-content: center;
+}
+.lname{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    background-color: #0d4851;
+    height: 20%;
+    justify-content: center;
+}
+.username_table{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    background-color: #0d4851;
+    height: 20%;
+    justify-content: center;
+}
+.birthdate_table{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    background-color: #0d4851;
+    height: 20%;
+    justify-content: center;
+}
+.status{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 30px;
+    background-color: #0d4851;
+    height: 20%;
+    justify-content: space-around;
+}
+.first_name_label{
+    display: flex;
+    justify-content: flex-start;
+    font-weight: bold;
+    color: white;
+}
+.first_name{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+.last_name_label{
+     display: flex;
+    justify-content: flex-start;
+    font-weight: bold;
+    color: white;
+}
+.last_name{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+.username_label{
+     display: flex;
+    justify-content: flex-start;
+    font-weight: bold;
+    color: white;
+}
+.username{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+.birthdate_label{
+    display: flex;
+    justify-content: flex-start;
+    font-weight: bold;
+    color: white;
+}
+.birthdate{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+}
+label{
+ font-weight: bold;
+    color: white;
+}

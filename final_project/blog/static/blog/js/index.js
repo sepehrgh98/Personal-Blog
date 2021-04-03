@@ -12,7 +12,8 @@ $('.mylikes').click( function() {
              },
              headers: {'X-CSRFToken': csrftoken},
              success : function (data) {
-             x.css({"background-color": "inherit"});
+             x.css({"background-color": "white"});
+             $('#'+elmId).css({"background-color": "white"});
               console.log("win1");
               $.ajax({
                             type: "GET",
@@ -48,6 +49,7 @@ $('.mylikes').click( function() {
              success : function (data) {
                        console.log("win");
                        x.css({"background-color": "green"});
+                       $('#'+elmId).css({"background-color": "green"});
                        $('#'+elmId+' .mydislikes').css({"background-color": "inherit"});
                        $.ajax({
                             type: "GET",
@@ -88,7 +90,8 @@ $('.mydislikes').click( function() {
              },
              headers: {'X-CSRFToken': csrftoken},
              success : function (data) {
-             x.css({"background-color": "inherit"});
+             x.css({"background-color": "white"});
+             $('#'+elmId).css({"background-color": "white"});
               console.log("win1");
               $.ajax({
                             type: "GET",
@@ -122,6 +125,7 @@ $('.mydislikes').click( function() {
              headers: {'X-CSRFToken': csrftoken},
              success : function (data) {
                        console.log("win");
+                       $('#'+elmId).css({"background-color": "red"});
                        x.css({"background-color": "red"});
                        $('#'+elmId+' .mylikes').css({"background-color": "inherit"});
                        $.ajax({
@@ -155,52 +159,28 @@ var elmId = y.parent();
 $.each(elmId, function( index, value ) {
 var state = $('#'+ value.id +' .LikeOrDislike')
 if (state[0].id == 'True'){
+    $('#'+value.id).css({"background-color": "green"});
     $('#'+value.id+' .mylikes').css({"background-color": "green"});
 }else if (state[0].id == 'False'){
+    $('#'+value.id).css({"background-color": "red"});
     $('#'+value.id+' .mydislikes').css({"background-color": "red"});
 }else{
-    $('#'+value.id+' .mylikes').css({"background-color": "inherit"});
-    $('#'+value.id+' .mydislikes').css({"background-color": "inherit"});
+    $('#'+value.id).css({"background-color": "white"});
+    $('#'+value.id+' .mylikes').css({"background-color": "white"});
+    $('#'+value.id+' .mydislikes').css({"background-color": "white"});
 }
 });
 
-$(".comment_btn").on("click", function(){
+
+$(".card").mouseover(function(){
     x = $(this);
-    var elmId = x.closest('div').attr('class');
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    elmId = elmId[elmId.length -1];
-    y = $('.textarea-'+elmId)
-    var txt = y.val();
-    var btn = $('.'+elmId+' .comment_btn')
-    console.log(btn)
-    $.ajax({
-            type: "POST",
-             url : "http://127.0.0.1:8000/blog/CommentAPI/",
-             headers: {'X-CSRFToken': csrftoken},
-             data: {
-                "post_id": elmId,
-                "text": txt
-             },
-             success :function (data) {
-             console.log('wiiin');
-             y.val('');
-             btn.attr('disabled', true);
-             },
-             error : function (data){
-             console.log('looos');
-             }
-    });
-});
-
-$("#com_box textarea").on("keyup", function(){
-    var myID = $(this).attr('class');
-    myID = myID[myID.length -1];
-    var z = $('.'+myID+' button');
-    z.attr('disabled', true);
-    if($(this).val() != ''){
-         z.attr('disabled', false);
-
-    } else {
-         z.attr('disabled', true);
-    }
-});
+    y = x.attr('id');
+    y = y.substring(1);
+    $("#-"+y).css('display', 'flex');
+  });
+$(".card").mouseleave(function(){
+    x = $(this);
+    y = x.attr('id');
+    y = y.substring(1);
+    $("#-"+y).css('display', 'none');
+  });

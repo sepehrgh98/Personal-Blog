@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from tinymce import models as tmc
+from image_cropping import ImageRatioField, ImageCropField
+
 
 
 class CustomUserManager(BaseUserManager):
@@ -36,13 +38,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=500)
     birthdate = models.DateTimeField(null=True, blank=True)
     email = models.EmailField(_('email address'), unique=True)
-    profile_image = models.ImageField(upload_to='user_images', null=True, blank=True, default='default/udefault.png')
     last_update = models.DateTimeField(null=True, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     username = models.CharField(max_length=500, unique=True)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
+    profile_image = models.ImageField(upload_to='user_images', null=True, blank=True, default='default/udefault.png')
+    cropping = ImageRatioField('profile_image', '430x360', size_warning=True)
+
 
     objects = CustomUserManager()
 
@@ -56,13 +60,13 @@ class Post(models.Model):
         verbose_name_plural = 'پست ها'
 
     post_date = models.DateTimeField('تاریخ انتشار', default=timezone.now)
-    last_update = models.DateTimeField()
+    last_update = models.DateTimeField(default=timezone.now())
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده')
     title = models.CharField(max_length=500)
     text = tmc.HTMLField()
     image = models.ImageField(upload_to='Post_images/', null=True, blank=True, default='default/pdefault.png')
     category = models.ForeignKey('Post_category', on_delete=models.SET_NULL, null=True)
-
+    cropping = ImageRatioField('image', '430x360')
 
     def __str__(self):
         return self.title
@@ -127,7 +131,6 @@ class Post_category(models.Model):
 
     name = models.CharField(max_length=200, unique=True)
     parent_category = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    last_update = models.DateTimeField()
 
     def __str__(self):
         return self.name

@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Post, Comment, Post_category, Tag, User, Like, Dislike
 from .forms import UserForm, Post_form, TagForm, Post_Category_Form
+from image_cropping import ImageCroppingMixin
 
 
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(ImageCroppingMixin, UserAdmin):
     form = UserForm
     model = User
     list_display = ('username', 'first_name', 'last_name', 'is_staff', 'is_active',)
@@ -73,7 +74,7 @@ class CommentInline(admin.TabularInline):
     model = Comment
 
 
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(ImageCroppingMixin, admin.ModelAdmin):
     form = Post_form
     model = Post
     inlines = [
@@ -83,7 +84,7 @@ class PostAdmin(admin.ModelAdmin):
     ]
     fieldsets = (
         (None, {
-            'fields': ('title', 'text', 'image', 'category', 'author', 'post_date')
+            'fields': ('title', 'text', 'image', 'category', 'author', 'post_date', 'cropping')
         }),
     )
 

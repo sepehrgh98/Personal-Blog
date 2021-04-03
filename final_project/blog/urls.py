@@ -12,8 +12,8 @@ urlpatterns = [
                   ),
                   path('', views.IndexView.as_view(), name='index'),
                   path('<int:pk>/', views.IndexView.as_view(), name='index'),
+                  path('post/<int:pk>/', views.myPost.as_view(), name='post'),
                   path('new/', views.new_Post, name='new_post'),
-                  path('post/<int:pk>/', views.Post_Pre_View.as_view(), name='preview'),
                   path('register/', views.register, name='register'),
                   path('categories/', views.Categories.as_view(), name='categories'),
                   path('profile/<int:pk>/', views.Profile.as_view(), name='profile'),
@@ -30,5 +30,9 @@ urlpatterns = [
                   path('UndislikeAPI/<int:pk>/', views.UndislikeAPI.as_view(), name='UndislikeAPI'),
                   path('CommentAPI/', views.CommentAPI.as_view(), name='CommentAPI'),
                   path('CommentAPI/<int:pk>/', views.CommentAPI.as_view(), name='CommentAPI'),
+                path('CategoryAPI/', views.CategoryAPI.as_view(), name='CategoryAPI'),
+                path('CategoryAPI/<string>/', views.CategoryAPI.as_view(), name='CategoryAPI'),
+                  path('CategoryResultAPI/', views.CategoryResultAPI.as_view(), name='CategoryResultAPI'),
+                  path('CategoryResultAPI/<string>/', views.CategoryResultAPI.as_view(), name='CategoryResultAPI'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

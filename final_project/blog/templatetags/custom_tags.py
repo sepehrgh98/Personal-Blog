@@ -47,12 +47,16 @@ def liked_or_disliked(post, user):
 
 register.filter('liked_or_disliked', liked_or_disliked)
 
-
-# def comments(post):
-#     print(post.comment_set.all())
-#
-#
-#
-# register.filter('comments', comments)
+mypost_list = []
 
 
+def delPost(post_list, val):
+    mypost_list.append(val)
+    p = list(post_list)
+    p = p - mypost_list
+    return p
+
+
+
+
+register.filter('delPost', delPost)

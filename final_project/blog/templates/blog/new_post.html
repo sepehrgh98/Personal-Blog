@@ -1,21 +1,63 @@
 {% extends 'base.html' %}
-{% load static %}
-{% load bootstrap %}
 
-<body>
+{% load static %}
+
+
+{% block css %}
+<link href="{% static 'blog/css/new_post.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block container %}
-<form id="post-form" method="post" enctype="multipart/form-data" >
+<form id="post-form" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <table>
-        {{ post_form|bootstrap }}
-        {{ tag_form|bootstrap }}
-    </table>
-    <input type="submit" value="ایجاد" class="btn-primary">
+    <div class="content">
+        <div class="right">
+            <div class="title">
+                <input id="id_title" type="text" name="title" class="form-control"
+                       placeholder="عنوان" required>
+            </div>
+            <div class="text">
+                {{ post_form.text }}
+            </div>
+            <div class="category">
+                {{ post_form.category }}
+            </div>
+            <div class="categoryResult">
+
+            </div>
+        </div>
+        <div class="left">
+            <div class="image_box">
+                <div class="row">
+                    <div class="imgUp">
+                        <div class="imagePreview"></div>
+                        <label class="btn btn-primary">
+                            Upload<input id="id_image" type="file" class="uploadFile img" value="Upload Photo" name="image"
+                                         style="width: 0px;height: 0px;overflow: hidden;">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tag">
+                {{ tag_form }}
+                <button type="button" class="addTag">اضافه کن!</button>
+                <div class="chosenTags">
+
+                </div>
+            </div>
+            <div class="date">
+                {{ post_form.post_date.label }}
+                {{ post_form.post_date }}
+            </div>
+
+        </div>
+    </div>
+    <input type="submit" value="ایجاد" class="finalBTN">
 </form>
 {% endblock %}
+
 {% block scripts %}
 <script src="{% static 'blog/js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'blog/js/autocomplete.js' %}"></script>
+<script src="{% static 'blog/js/newpost.js' %}"></script>
 {% endblock %}
-</body>
-</html>

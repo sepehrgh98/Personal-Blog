@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link href="{% static 'blog/css/post.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+<div class="mypost">
+    <div class="col-4 right">
+        <div class="post_author">
+            <div class="auth_img">
+                <img src="{{ post.author.profile_image.url}}" alt="Card image cap">
+            </div>
+            <div class="auth"><a href="{% url 'blog:profile' post.author.pk %}" style="color:white;text-decoration: none;">{{ post.author }}</a></div>
+        </div>
+        <div class="post_image">
+            <img src="{{ post.image.url}}">
+        </div>
+        <div class="post_title">
+            <div>{{ post.title }}</div>
+        </div>
+        <div class="post_date">
+            <div>{{ post.post_date }}</div>
+        </div>
+    </div>
+    <div class="col-4 middle">
+        <div class="pre_post_content">
+            <div class="post_content">
+                <div class="post_text">{{ post.text }}</div>
+            </div>
+        </div>
+        <div class="post_Tags">
+            <!--            <div>-->
+            <!--                {{ post_tag }}-->
+            <!--            </div>-->
+        </div>
+        <div class="post_category">
+            <div>{{ post.category }}</div>
+        </div>
+    </div>
+    <div class="col-4 left">
+        <div class="post_comments">
+            <div class="col-6 old_comment">
+                {% for comment in post.comment_set.all %}
+                <div class="some_comments">
+                    <div class="com_img">
+                        <img src="{{ comment.author.profile_image.url}}" alt="Card image cap">
+                    </div>
+                    <div class="com_contant">
+                        <div class="com_contant_top">
+                            <div class="com_contant_top_left"><a href="{% url 'blog:profile' comment.author.pk %}" style="color:#103b7c;text-decoration: none;">{{ comment.author.username }}</a></div>
+
+                            <div class="com_contant_top_right">{{ comment.comment_date }}</div>
+                        </div>
+                        <div class="com_contant_down">
+                            {{ comment.text }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="col-6 p-2 new_comment">
+                <div class="d-flex flex-row align-items-start" id="com_box">
+                    <div class="d-flex flex-row" id="com_img">
+                        <img class="card-img-top rounded-1"
+                             src="{{ request.user.profile_image.url }}" alt="Card image cap">
+                    </div>
+
+
+                    <textarea placeholder="نظر شما..."
+                              class="form-control ml-1 shadow-none textarea-{{ post.id }}">
+                                                    </textarea>
+
+                </div>
+                <div class="d-flex justify-content-end mt-2 text-right {{ post.id }}">
+                    <button class="btn btn-primary btn-sm shadow-none comment_btn" type="button"
+                            disabled>ارسال نظر
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+{% block scripts %}
+{% csrf_token %}
+<script src="{% static 'blog/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'blog/js/post.js' %}"></script>
+{% endblock %}

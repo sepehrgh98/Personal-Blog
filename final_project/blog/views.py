@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.utils import timezone
 from rest_framework.views import APIView
-from .serializers import LikeAndDislikeSerializer
+from .serializers import LikeAndDislikeSerializer, CategorySerializer
 from rest_framework.response import Response
 from rest_framework import status
 from dal import autocomplete
@@ -20,23 +20,6 @@ class IndexView(ListView):
     context_object_name = 'post_list'
     queryset = Post.objects.all()
     template_name = 'blog/index.html'
-
-    # def get(self, request):
-    #     comment_form = CommentForm(request.POST)
-    #     return render(request, 'blog/index.html', {'post_list': self.queryset, 'comment_form': comment_form})
-    #
-    # def post(self, request):
-    #     comment_form = CommentForm(request.POST)
-    #     post_list = Post.objects.all()
-    #     print(f'&&&&&&&&&&&&&&&&&&&{request.POST}')
-    #     if comment_form.is_valid():
-    #         comment = comment_form.save(commit=False)
-    #         comment.comment_date = timezone.now()
-    #         comment.author = request.user
-    #         # comment.post =
-    #         comment.save()
-    #         comment_form.save_m2m()
-    #         return HttpResponseRedirect(reverse('blog:index'), post_list)
 
 
 # register page
@@ -63,11 +46,11 @@ class Profile(generic.DetailView):
     model = User
     template_name = 'blog/Profile.html'
 
-
-# post_pre_view
-class Post_Pre_View(LoginRequiredMixin, generic.DetailView):
+# post
+class myPost(generic.DetailView):
     model = Post
-    template_name = 'blog/post_pre_view.html'
+    template_name = 'blog/post.html'
+
 
 
 # new_post_page
@@ -83,20 +66,13 @@ def new_Post(request):
                 tag.save()
                 tag_form.save_m2m()
 
-            # category = category_form.save(commit=False)
-            # category.last_update = timezone.now()
-            # category.save()
-            # category_form.save()
-
             post = post_form.save(commit=False)
             post.last_update = timezone.now()
-            # post.category = category
             post.tag = tag
             post.author = request.user
             post.save()
-            # post_form.save()
 
-            return HttpResponseRedirect(reverse('blog:preview', args=(post.id,)))
+            return HttpResponseRedirect(reverse('blog:index', args=(post.id,)))
 
     else:
         post_form = Post_form()
@@ -152,7 +128,6 @@ class TagAutocomplete(autocomplete.Select2QuerySetView):
             return Tag.objects.none()
 
         qs = Tag.objects.filter(name__istartswith=self.request.POST['search'])
-        print(qs)
         return qs
 
 
@@ -197,8 +172,31 @@ class CommentAPI(APIView):
     def post(self, request):
         if request.data:
             data = request.POST
-            print(f'Cءءءءءءء{data}')
             p = Post.objects.get(id=data['post_id'])
             Comment.objects.create(author=request.user, text=data['text'], post=p)
             return Response(status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+#CategoryAPI
+ParentCategory_list = []
+
+class CategoryAPI(APIView):
+    def post(self, request):
+        if request.data:
+            ParentCategory_list.clear()
+            data = request.POST
+            c = Post_category.objects.get(name=data['category_name'])
+            ParentCategory_list.append(c)
+            while c.parent_category :
+                PCat = c.parent_category
+                ParentCategory_list.append(PCat)
+                c = Post_category.objects.get(name=PCat)
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class CategoryResultAPI(APIView):
+    def get(self, request, format=None):
+        serializer = CategorySerializer(ParentCategory_list, many=True)
+
+        return Response(serializer.data)

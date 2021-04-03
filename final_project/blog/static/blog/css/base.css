@@ -1,26 +1,61 @@
-.nav_img{
-    width: 100%;
-    height: 100px;
+html {
+     min-height: 100%;
 }
-.nav_down{
-    height:50px;
+body{
+    display: flex;
+    flex-direction: row-reverse;
+    min-height: 100%;
+    height: 100vh;
+}
+.bg-image{
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.nav{
+    width: 4.8%;
+    background-color: #228984;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+.container{
+    max-width: inherit;
+    padding: 0;
+
+}
+.mylogobox{
+    width: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #228984;
+    border-radius: 50%;
+    height: 110px;
+    margin-top: 20px;
 }
 .logobox{
-    width: 150px;
-    height: 100%;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.logo{
+    width: 100px;
+    height: 100px;
+    margin-right: -10px;
 }
 .searchform{
-    width: 50px;
-    height: 100%;
+    width: 100%;
+    background-color: #228984;
 }
 .searchform button{
     width: 100%;
     height: 100%;
-}
-.logo{
-     width: 50%;
-    height: 130%;
-    margin-top: -6px;
+    background-color: #228984;
 }
 
 .logo img{
@@ -28,6 +63,72 @@
     height: 100%;
 }
 .items{
-    width: 700px;
-    height: 100%;
+    width: 72px;
+    height: min-content;
+}
+.dropright {
+  float: left;
+  overflow: hidden;
+  height: min-content;
+}
+.dropright .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+.navbar a:hover, .dropright:hover .dropbtn {
+}
+
+.dropright-content {
+  display: none;
+  position: absolute;
+  background-color: #228984;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+   left: 129px;
+}
+
+.dropright-content a {
+  float: none;
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropright-content a:hover {
+  background-color: #ddd;
+}
+
+.dropright:hover .dropright-content {
+    display: flex;
+    flex-direction: column;
+    left: 54px;
+    top: 0;
+}
+.fa-stack{
+    color:#228984;
+}
+.nav-top{
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    height: 50%;
+    width: 100%;
+    align-items: center;
+}
+.nav-down{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    height: 50%;
+    width: 100%;
+    align-items: center;
 }

@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'easy_thumbnails',
+    'image_cropping',
     'bootstrapform',
     'rest_framework',
     'tinymce',
@@ -161,3 +163,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 CSRF_COOKIE_SECURE = False
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+THUMBNAIL_PROCESSORS = (
+    'image_cropping.thumbnail_processors.crop_corners',
+) + thumbnail_settings.THUMBNAIL_PROCESSORS
+
+IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+IMAGE_CROPPING_BACKEND_PARAMS = {}
+IMAGE_CROPPING_THUMB_SIZE = (300, 300)
+IMAGE_CROPPING_SIZE_WARNING = True
+

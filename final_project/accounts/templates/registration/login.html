@@ -1,24 +1,72 @@
-{% extends "base.html" %}
+{% load static %}
 
-{% block container %}
+<html lang="en">
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<form action="{% url 'login' %}" method="post" >
-    {% csrf_token %}
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-    </table>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
-    <input type="submit" value="login">
-</form>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">رمز را فراموش کرده ام</a></p>
+    <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
 
-{% endblock %}
+</head>
+<body class="img js-fullheight" style="background-image: url({% static 'accounts/images/bg.jpg' %});">
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section"></h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-wrap p-0">
+                    <h3 class="mb-4 text-center">ثبت نام</h3>
+                    <form action="{% url 'login' %}" method="post" class="signin-form">
+                        {% csrf_token %}
+                        {% for item in form %}
+                        {% if item.id_for_label == 'id_username' %}
+                        <div class="form-group">
+                            <input type="text" id="{{ item.id_for_label }}"  name="{{ item.html_name }}" class="form-control" placeholder="Username" required>
+                        </div>
+                        {% else %}
+                        <div class="form-group">
+                            <input id="{{ item.id_for_label }}"  name="{{ item.html_name }}" type="password" class="form-control" placeholder="Password"
+                                   required>
+                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+
+                        {% endif %}
+                        {% endfor %}
+                        <div class="form-group">
+                            <input type="submit" class="form-control btn btn-primary submit px-3" value="login">
+                        </div>
+                        <div class="form-group d-md-flex">
+                            <div class="w-50">
+                                <label class="checkbox-wrap checkbox-primary">به خاطر بسپار
+                                    <input type="checkbox" checked>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="w-50 text-md-right">
+                                <a href="#" style="color: #fff">رمز را فراموش کرده ام</a>
+                            </div>
+                        </div>
+                    </form>
+                    {# Assumes you setup the password_reset view in your URLconf #}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'accounts/js/jquery.min.js' %}"></script>
+<script src="{% static 'accounts/js/popper.js' %}"></script>
+<script src="{% static 'accounts/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'accounts/js/main.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+#post-form{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    left: 180px;
+    top: 150px;
+    height: 550px;
+    width: 1250px;
+    flex-direction: column;
+}
+
+
+.content{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    background-color: #228984;
+    padding: 10px;
+}
+.right{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin-left: 15px;
+}
+#id_text{
+    width: 100%;
+    border-radius: 5px;
+}
+.left{
+  display: flex;
+  flex-direction: column;
+  width: calc(60% - 15px);
+}
+.text{
+    width: 100%;
+    margin-top: 10px;
+}
+.image_btn{
+
+}
+.imagePreview {
+    width: 100%;
+    height: 180px;
+    background-position: center center;
+  background:url(http://cliquecities.com/assets/no-image-e3699ae23f866f6cbdf8ba2443ee5c4e.jpg);
+  background-color:#fff;
+    background-size: cover;
+  background-repeat:no-repeat;
+    display: inline-block;
+  box-shadow:0px -3px 6px 2px rgba(0,0,0,0.2);
+  border-radius: 5px 5px 0 0;
+}
+.btn-primary
+{
+  display:block;
+  border-radius:0px;
+  box-shadow:0px 4px 6px 2px rgba(0,0,0,0.2);
+  margin-top:-5px;
+}
+
+.del
+{
+  position:absolute;
+  top:0px;
+  right:15px;
+  width:30px;
+  height:30px;
+  text-align:center;
+  line-height:30px;
+  background-color:rgba(255,255,255,0.6);
+  cursor:pointer;
+}
+.tag{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    font-size: 18;
+    font-weight: bold;
+    color: white;
+}
+.category{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.date{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    font-size: 18;
+    font-weight: bold;
+    color: white;
+}
+#id_post_date{
+    width: 100%;
+}
+
+.category select {
+  background-color: #24adcc;
+  color: white;
+  padding: 12px;
+  border: none;
+  font-size: 20px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  appearance: button;
+  outline: none;
+  border-radius: 5px;
+}
+
+.category::before {
+  font-family: FontAwesome;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  font-size: 28px;
+  line-height: 45px;
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.category:hover::before {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.category select option {
+  padding: 30px;
+}
+.chosenTags{
+    width: 100%;
+    height: 110px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    overflow: auto;
+}
+#id_name{
+    margin-top: 10px;
+    border-radius: 5px;
+}
+#id_post_date{
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.categoryResult{
+   width: 100%;
+    height: 50px;
+    display: flex;
+    color: white;
+    font-weight: bold;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+.addTag{
+    color: #fff;
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    width: 15%;
+    font-size: 15;
+    align-self: end;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+.miniTag{
+    background-color: brown;
+    width: max-content;
+    border-radius: 60px;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: max-content;
+}
+.finalBTN{
+    color: #fff;
+    background-color: #0b5ed7;
+    border-color: #2b0aca;
+    border-radius: 0 0 5px 5px;
+}
