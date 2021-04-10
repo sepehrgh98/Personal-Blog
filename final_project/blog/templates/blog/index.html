@@ -8,6 +8,7 @@
 {% block container %}
 <div class="posts">
     {% for post in post_list %}
+    {% if post.is_active and post.is_accepted%}
     <div class="mypost">
         <div class="card" id=">{{ post.id }}" style="width: 25rem;">
             <div class="card-body">
@@ -23,6 +24,7 @@
             </div>
 
         </div>
+        {% if request.user.is_authenticated %}
         <div class="state" id="{{ post.id }}" style="display:flex;justify-content:space-around;background-color:white;margin-left: 20px;margin-right: 20px;border: 1px solid rgba(0,0,0,.125);border-radius: .25rem;">
             <i class="far fa-thumbs-up mylikes" style="margin-top: 5px;"></i>
             <div class="likeCounter">{{ post|like_counter }}</div>
@@ -31,8 +33,9 @@
             <div class="LikeOrDislike" style="display: none"
                  id="{{ post|liked_or_disliked:request.user }}"></div>
         </div>
+        {% endif%}
     </div>
-
+    {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

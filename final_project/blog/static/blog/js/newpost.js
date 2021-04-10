@@ -57,7 +57,20 @@ $('#id_category option').on("click", function() {
 
 $(".addTag").on("click", function(){
     myTag = $("#id_name").val()
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     $('.chosenTags').append('<div class="miniTag">'+myTag+'</div>');
     $('.chosenTags').append('<div style="color:white;"> , </div>');
+    $.ajax({
+         type: "POST",
+         url : "http://127.0.0.1:8000/blog/tagAPI/",
+         data: {
+             "tag_name": myTag
+         },
+         headers: {'X-CSRFToken': csrftoken},
+         success : function (data) {
+            console.log("wiiiiiiiin")
+         }
+
+    });
 
 });

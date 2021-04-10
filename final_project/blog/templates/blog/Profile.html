@@ -7,99 +7,131 @@
 {% endblock %}
 
 {% block container %}
-<div class="myprof">
-
-
-    <div class="left">
-        <div class="left-top">
-            <div class="Profile_image">
-                <img src="{{ user.profile_image.url }}" alt="Card image cap">
+<div class="content">
+    <div class="myprof">
+        <div class="left">
+            <div class="left-top">
+                <div class="Profile_image">
+                    <img src="{{ user.profile_image.url }}" alt="Card image cap">
+                </div>
             </div>
-        </div>
-        <div class="left-bottom">
-            <label class="email_label">پست الکترونیکی :</label>
-            <div class="email">
-                {{ user.email }}
+            <div class="left-bottom">
+                <label class="email_label">پست الکترونیکی :</label>
+                <div class="email">
+                    {{ user.email }}
+                </div>
+
             </div>
 
         </div>
+        <div class="right">
+            <div class="fname">
+                <label class="first_name_label">نام :</label>
+                <div class="first_name">
+                    {{ user.first_name }}
+                </div>
+            </div>
+            <div class="lname">
+                <label class="last_name_label">نام خانوادگی :</label>
+                <div class="last_name">
+                    {{ user.last_name }}
+                </div>
+            </div>
 
+            <div class="username_table">
+                <label class="username_label">نام کاربری :</label>
+                <div class="username">
+                    {{ user.username }}
+                </div>
+
+            </div>
+            <div class="birthdate_table">
+                <label class="birthdate_label">تاریخ تولد :</label>
+                <div class="birthdate">
+                    {{ user.birthdate }}
+                </div>
+            </div>
+            <div class="status">
+                <div class="is_staff">
+                    {% if user.is_staff.value %}
+                    <label>is_staff
+                        <input type="checkbox" checked onclick="return false;">
+                        <span class="checkmark"></span>
+                    </label>
+                    {% else %}
+                    <label>is_staff
+                        <input type="checkbox" onclick="return false;">
+                        <span class="checkmark"></span>
+                    </label>
+                    {% endif %}
+                </div>
+                <div class="is_active">
+                    {% if user.is_active %}
+                    <label>is_active
+                        <input type="checkbox" checked onclick="return false;">
+                        <span class="checkmark"></span>
+                    </label>
+                    {% else %}
+                    <label>is_active
+                        <input type="checkbox" onclick="return false;">
+                        <span class="checkmark"></span>
+                    </label>
+                    {% endif %}
+
+                </div>
+            </div>
+
+
+        </div>
     </div>
-    <div class="right">
-        <div class="fname">
-            <label class="first_name_label">نام :</label>
-            <div class="first_name">
-                {{ user.first_name }}
+    <div class="post_title_box">
+            <div class="post_title">
+                پست ها
             </div>
-        </div>
-        <div class="lname">
-            <label class="last_name_label">نام خانوادگی :</label>
-            <div class="last_name">
-                {{ user.last_name }}
-            </div>
-        </div>
+    </div>
+    <div class="posts">
+        {% for post in user.post_set.all %}
+        {% if post.is_accepted %}
+        <div class="mypost">
+            <div class="card" id=">{{ post.id }}" style="width: 25rem;">
+                <div class="card-body">
+                    <img class="post_image" src="{{ post.image.url}}">
+                    <div class="card-img-overlay" id="-{{ post.id }}" style="display:none;">
+                        <p class="card-text">
+                            <a class="navbar-brand" href="{% url 'blog:post' post.pk %}" style="color:white;">
+                                {{ post.title }}
+                            </a>
 
-        <div class="username_table">
-            <label class="username_label">نام کاربری :</label>
-            <div class="username">
-                {{ user.username }}
-            </div>
-
-        </div>
-        <div class="birthdate_table">
-            <label class="birthdate_label">تاریخ تولد :</label>
-            <div class="birthdate">
-                {{ user.birthdate }}
-            </div>
-        </div>
-        <div class="status">
-            <div class="is_staff">
-                {% if user.is_staff.value %}
-                <label>is_staff
-                    <input type="checkbox" checked>
-                    <span class="checkmark"></span>
-                </label>
-                {% else %}
-                <label>is_staff
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-                {% endif %}
-            </div>
-            <div class="is_active">
-                {% if user.is_active %}
-                <label>is_active
-                    <input type="checkbox" checked>
-                    <span class="checkmark"></span>
-                </label>
-                {% else %}
-                <label>is_active
-                    <input type="checkbox">
-                    <span class="checkmark"></span>
-                </label>
-                {% endif %}
+                        </p>
+                    </div>
+                </div>
 
             </div>
+            {% if request.user == post.author %}
+            <div class="activation" id="{{ post.id }}">
+                <div>غیر فعال</div>
+                <label class="switch">
+                    {% if post.is_active %}
+                    <input type="checkbox" id="togBtn" checked>
+                    {% else %}
+                    <input type="checkbox" id="togBtn">
+                    {% endif %}
+                  <span class="slider round"></span>
+                </label>
+                <div>فعال</div>
+            </div>
+            {% endif %}
         </div>
-
+         {% endif %}
+        {%endfor%}
 
     </div>
 </div>
 
-<!--<h1>{{ user.first_name }} {{ user.last_name }}</h1>-->
-<!--<div class="card-deck">-->
-<!--        <div class="card-group">-->
-<!--            <div class="card">-->
-<!--                {% if user.profile_image %}-->
-<!--                <img src="{{ user.profile_image.url}}" alt="connect" style="max-height:300px">-->
-<!--                {% endif %}-->
-<!--                <div class="card-body">-->
-<!--                    <h5 class="card-title">{{ user.username }}</h5>-->
-<!--                  >  <p class="card-text">{{ user.email }}</p>-->
-<!--                    <p class="card-text">{{ user.birthdate}}</p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--</div>-->
+{% endblock %}
+{% block scripts %}
+{% csrf_token %}
+<script src="{% static 'blog/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'blog/js/profile.js' %}"></script>
 {% endblock %}
 

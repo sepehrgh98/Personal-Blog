@@ -1,0 +1,76 @@
+.content{
+   display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.tag_posts{
+   display: flex;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: auto;
+    direction: initial;
+}
+.tag_title{
+    align-self: center;
+    color: #ffdb4c;
+    border-radius: 25px;
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    background-color: #228984;
+}
+.textarea {
+    resize: none
+}
+.shadow-none {
+    box-shadow: none
+}
+.cursor:hover {
+    color: blue
+}
+
+.cursor {
+    cursor: pointer
+}
+
+.col-md-8{
+    width: 100%;
+    margin-bottom: 25px;
+}
+.card-img-overlay{
+
+}
+
+
+.post_image{
+    vertical-align: middle;
+    width: 100%;
+    height: inherit;
+
+}
+.card-img-overlay:hover{
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    opacity: 0.5;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: none;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    height: max-content;
+    margin: 20px;
+}

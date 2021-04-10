@@ -2,11 +2,14 @@ $(".comment_btn").on("click", function(){
     x = $(this);
     var elmId = x.closest('div').attr('class');
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    elmId = elmId[elmId.length -1];
-    y = $('.textarea-'+elmId)
+    n = elmId.search("_");
+    elmId = elmId.substring(n+1, elmId.length);
+//    elmId = elmId[elmId.length -1];
+    console.log(elmId);
+    y = $('.textarea_'+elmId);
+
     var txt = y.val();
     var btn = $('.'+elmId+' .comment_btn')
-    console.log(btn)
     $.ajax({
             type: "POST",
              url : "http://127.0.0.1:8000/blog/CommentAPI/",
@@ -26,9 +29,12 @@ $(".comment_btn").on("click", function(){
     });
 });
 
-$("#com_box textarea").on("keyup", function(){
+$("#comtext").on("keyup", function(){
     var myID = $(this).attr('class');
-    myID = myID[myID.length -1];
+    console.log(myID)
+    n = myID.search("_");
+    myID = myID.substring(n+1, myID.length);
+    console.log(myID)
     var z = $('.'+myID+' button');
     z.attr('disabled', true);
     if($(this).val() != ''){

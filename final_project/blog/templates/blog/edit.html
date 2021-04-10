@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block css %}
+<link href="{% static 'blog/css/edit.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+<div class="content">
+    <div class="right">
+        <div class="right_title_box">
+            <div class="right_title">
+                پست های ویراست نشده
+            </div>
+        </div>
+        <div class="right_content_box">
+           <div class="right_content">
+               {% for item in post %}
+                   {% if not item.is_accepted %}
+                       <span class="dot"></span>
+                       <a class="res" href="{% url 'blog:postUpdate' item.pk %}"  style="color:#ffa5a5;text-decoration: none;">
+                                {{ item }}</a>
+                       <br/>
+                       <br/>
+                   {% endif %}
+               {% endfor %}
+           </div>
+        </div>
+
+    </div>
+    <div class="left">
+        <div class="left_title_box">
+            <div class="left_title">
+                پست های ویراست شده
+            </div>
+        </div>
+        <div class="left_content_box">
+            <div class="left_content">
+                {% for item in post %}
+                    {% if item.is_accepted %}
+                       <span class="dot"></span>
+                       <a class="res" href="{% url 'blog:postUpdate' item.pk %}"  style="color:#b3efb3;text-decoration: none;">
+                                {{ item }}</a>
+                       <br/>
+                       <br/>
+                    {% endif %}
+               {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% csrf_token %}
+<script src="{% static 'blog/js/jquery-3.6.0.min.js' %}"></script>
+{% endblock %}

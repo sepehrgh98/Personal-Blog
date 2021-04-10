@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link href="{% static 'blog/css/searchResult.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block container %}
+
+{% if search %}
+<div class="content">
+
+    <div class="searchTitle">
+        <h1> جست وجو برای &nbsp;   </h1>
+        <h1 style="color:white;">{{ search }}</h1>
+    </div>
+    <div class="searchResult">
+        <table>
+            <tr>
+                <th>فضای جست و جو</th>
+                <th>نتایج جست وجو</th>
+            </tr>
+            <tr>
+                <td class="title">عنوان پست</td>
+                <td>
+                    {% for item in post_title %}
+                    <span class="dot"></span>
+                    <a class="res" href="{% url 'blog:post' item.pk %}"  style="color:white;text-decoration: none;">
+                        {{ item }}</a>
+                    <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td class="title">محتوای پست</td>
+                <td>
+                    {% for item in post_text %}
+                    <span class="dot"></span>
+                    <a class="res" href="{% url 'blog:post' item.pk %}"  style="color:white;text-decoration: none;">
+                        {{ item }}</a>
+                    <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td class="title">نویسنده پست</td>
+                <td>
+                    {% for item in post_author %}
+                    <span class="dot"></span>
+                    <a class="res" href="{% url 'blog:profile' item.pk %}"  style="color:white;text-decoration: none;">
+                        {{ item.author }}</a>
+                    <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td class="title">برچسب</td>
+                <td>
+                    {% for item in tag_name %}
+                    <span class="dot"></span>
+                    <a class="res" href="{% url 'blog:tag' item.pk %}"  style="color:white;text-decoration: none;">
+                        {{ item }}</a>
+                    <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td class="title">دسته بندی</td>
+                <td>
+                    {% for item in category_name %}
+                    <span class="dot"></span>
+                    <a class="res" href="{% url 'blog:category' item.pk %}"  style="color:white;text-decoration: none;">
+                        {{ item }}</a>
+                    <br/>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% else %}
+    <div class="searchTitle">
+        <p> یادت رفت کلمه مورد نظرتو بنویسی! </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -7,7 +7,6 @@ from tinymce import models as tmc
 from image_cropping import ImageRatioField, ImageCropField
 
 
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, password, **extra_fields):
         if not username:
@@ -47,7 +46,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     profile_image = models.ImageField(upload_to='user_images', null=True, blank=True, default='default/udefault.png')
     cropping = ImageRatioField('profile_image', '430x360', size_warning=True)
 
-
     objects = CustomUserManager()
 
     def __str__(self):
@@ -65,8 +63,9 @@ class Post(models.Model):
     title = models.CharField(max_length=500)
     text = tmc.HTMLField()
     image = models.ImageField(upload_to='Post_images/', null=True, blank=True, default='default/pdefault.png')
-    category = models.ForeignKey('Post_category', on_delete=models.SET_NULL, null=True)
-    cropping = ImageRatioField('image', '430x360')
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    is_active = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -118,13 +117,18 @@ class Tag(models.Model):
         verbose_name_plural = 'برچسب ها'
 
     name = models.CharField(max_length=200)
-    post = models.ManyToManyField('Post', null=True, blank=True)
+    post = models.ManyToManyField('Post', through="Post_Tag", null=True, blank=True, related_name="myTags")
 
     def __str__(self):
         return self.name
 
 
-class Post_category(models.Model):
+class Post_Tag(models.Model):
+    tag = models.ForeignKey('Tag', on_delete=models.CASCADE)
+    post = models.ForeignKey('Post', on_delete=models.CASCADE)
+
+
+class Category(models.Model):
     class Meta:
         verbose_name = 'گروه بندی پست ها'
         verbose_name_plural = 'گروه بندی های پست ها'

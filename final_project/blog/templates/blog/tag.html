@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link href="{% static 'blog/css/tag.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+<div class="content">
+
+    <div class="tag_title">
+        <h1>
+            {{ tag.name }}
+        </h1>
+    </div>
+    <div class="tag_posts">
+        {% for post in tag.post.all %}
+        <div class="mypost">
+            <div class="card" id=">{{ post.id }}" style="width: 25rem;">
+                <div class="card-body">
+                    <img class="post_image" src="{{ post.image.url}}">
+                    <div class="card-img-overlay" id="-{{ post.id }}" style="display:none;">
+                        <p class="card-text">
+                            <a class="navbar-brand" href="{% url 'blog:post' post.pk %}" style="color:white;">
+                                {{ post.title }}
+                            </a>
+
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+{% csrf_token %}
+<script src="{% static 'blog/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'blog/js/tag.js' %}"></script>
+{% endblock %}

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Like, Post, Post_category
+from .models import Like, Post, Category
 from .models import Dislike
 import json
 
@@ -23,6 +23,6 @@ class LikeAndDislikeSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post_category
+        model = Category
         fields = ('id', 'name')
 

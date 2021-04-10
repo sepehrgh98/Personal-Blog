@@ -1,14 +1,64 @@
 {% extends 'base.html' %}
+
 {% load static %}
 {% load custom_tags %}
+
+
 {% block css %}
 <link href="{% static 'blog/css/categories.css' %}" rel="stylesheet">
 {% endblock %}
-<body>
+
 {% block container %}
+<div class="content">
+    <div class="category_title">
+        <h6 style="margin-top: 15px;">
+            {% if category.parent_category %}
+            {{ category.parent_category }}
+            {% else %}
+            .....
+            {% endif %}
+        </h6>
+        <div style="color:#ffdb4c;margin-top: 15px;"> >> </div>
+        <h1>
+            {{ category }}
+        </h1>
+        <div style="color:#ffdb4c;margin-top: 15px;"> >> </div>
+        <h6 style="margin-top: 15px;">
+            {% if category|subfinder %}
+            {{ category|subfinder }}
+            {% else %}
+            .....
+            {% endif %}
+        </h6>
+
+
+    </div>
+    <div class="category_posts">
+        {% for post in category.post_set.all %}
+        <div class="mypost">
+            <div class="card" id=">{{ post.id }}" style="width: 25rem;">
+                <div class="card-body">
+                    <img class="post_image" src="{{ post.image.url}}">
+                    <div class="card-img-overlay" id="-{{ post.id }}" style="display:none;">
+                        <p class="card-text">
+                            <a class="navbar-brand" href="{% url 'blog:post' post.pk %}" style="color:white;">
+                                {{ post.title }}
+                            </a>
+
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {%endfor%}
+    </div>
+</div>
 {% endblock %}
 {% block scripts %}
+{% csrf_token %}
+<script src="{% static 'blog/js/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'blog/js/categories.js' %}"></script>
 {% endblock %}
 
-</body>

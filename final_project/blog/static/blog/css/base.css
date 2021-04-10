@@ -48,15 +48,55 @@ body{
     height: 100px;
     margin-right: -10px;
 }
-.searchform{
-    width: 100%;
+.searchbtn{
     background-color: #228984;
+    border: none;
 }
-.searchform button{
+.input-field{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.search-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+   left: 129px;
+}
+.form-control{
+    border: 0;
+    border-radius: 0 0 0 0;
+}
+.btn-search{
+    background-color: #27c727;
+    border: 0;
+    border-radius: 0 25px 25px 0;
+    color: white;
+}
+
+.search-content .form-control {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: right;
+}
+.searchForm{
     width: 100%;
-    height: 100%;
-    background-color: #228984;
 }
+.searchForm:hover .search-content {
+    display: flex;
+    flex-direction: column;
+    left: 72px;
+    top: 0;
+    height: 49px;
+    border: 0;
+    border-radius: 0 25px 25px 0;
+}
+
 
 .logo img{
     width: 100%;
@@ -80,8 +120,6 @@ body{
   background-color: inherit;
   font-family: inherit;
   margin: 0;
-}
-.navbar a:hover, .dropright:hover .dropbtn {
 }
 
 .dropright-content {
@@ -110,15 +148,15 @@ body{
 .dropright:hover .dropright-content {
     display: flex;
     flex-direction: column;
-    left: 54px;
-    top: 0;
+    left: 72px;
+    top: 350px;
 }
 .fa-stack{
     color:#228984;
 }
 .nav-top{
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: space-between;
     height: 50%;
     width: 100%;

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, Textarea
-from .models import Tag, Post_category, Post, User, Comment
+from .models import Tag, Category, Post, User, Comment
 from django.utils.translation import gettext_lazy as _
 from django.forms.widgets import NumberInput
 from dal import autocomplete
@@ -52,9 +52,9 @@ class TagForm(ModelForm):
         }
 
 
-class Post_Category_Form(ModelForm):
+class Category_Form(ModelForm):
     class Meta:
-        model = Post_category
+        model = Category
         fields = ['name']
         labels = {
             'name': _('عنوان دسته بندی'),

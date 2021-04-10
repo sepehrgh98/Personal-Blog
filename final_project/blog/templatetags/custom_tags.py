@@ -1,21 +1,30 @@
 from django import template
 from django.template.loader import get_template
+from blog.models import Category
 
 register = template.Library()
 
+@register.filter(name='has_group')
+def has_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()
 
-@register.inclusion_tag("blog/nested_cat.html")
-def nested_cat(cat):
-    cats = cat.post_category_set.all()
-    print(f'dvsf{cats}')
-    return {'cats': cats}
+def subfinder(val):
+    o = Category.objects.filter(parent_category=val)
+
+    return o
 
 
-# nested_cat_template = get_template('blog/nested_cat.html')
-# print(f'ssssssssssss{nested_cat_template}')
-# register.inclusion_tag(nested_cat_template)(nested_cat)
-
-register.filter('nested_cat', nested_cat)
+def parentCat(val):
+    ParentCategory_list= []
+    c = Category.objects.get(name=val.name)
+    ParentCategory_list.append(c)
+    while c.parent_category:
+        PCat = c.parent_category
+        ParentCategory_list.append(PCat)
+        c = Category.objects.get(name=PCat)
+    print(f'+++++{ParentCategory_list}')
+    print(type(ParentCategory_list[0]))
+    return ParentCategory_list
 
 
 def like_counter(val):
@@ -28,6 +37,8 @@ def dislike_counter(val):
 
 register.filter('like_counter', like_counter)
 register.filter('dislike_counter', dislike_counter)
+register.filter('parentCat', parentCat)
+register.filter('subfinder', subfinder)
 
 
 def liked_or_disliked(post, user):
